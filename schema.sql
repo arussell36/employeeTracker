@@ -61,11 +61,6 @@ INSERT INTO employee (first_name,last_name,employee_id,role_ID,manager_ID) VALUE
 INSERT INTO employee (first_name,last_name,employee_id,role_ID,manager_ID) VALUES ('Elon','Mactusk',11002,301,30000);
 INSERT INTO employee (first_name,last_name,employee_id,role_ID) VALUES ('Street','Goob',30000,302);
 
-select * from employee
-
-select * from role
-
-select * from department
 
 
 
