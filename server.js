@@ -21,7 +21,7 @@ connection.connect((err) => {
 // OPENING SEQUENCE OF QUESTIONS //
 function runSearch() {
     inquirer
-      .prompt({
+    .prompt({
         name: "action",
         type: "list",
         message: "Welcome to the THEJOB! What would you like to do?",
@@ -66,7 +66,7 @@ function viewDept() {
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log("Department | Department_ID")
+        console.log("Department | Department ID")
         res.forEach((data) => {
             console.log(`-${data.name}, ${data.department_ID}`);
         })
@@ -74,4 +74,88 @@ function viewDept() {
         runSearch();
     })
 };
+
+
+function viewRole() {
+    const query = "SELECT * FROM role ORDER BY role_ID DESC";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        console.log("Title | Salary | Department ID | Role ID")
+        res.forEach((data) => {
+            console.log(`-${data.title}, ${data.salary}, ${data.department_ID}, ${data.role_ID}`);
+        })
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        runSearch();
+    })
+};
+
+
+function viewEmpl() {
+    const query = "SELECT * FROM employee ORDER BY employee_id DESC";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        console.log("First Name | Last Name | Employee ID | Role ID | Manager ID")
+        res.forEach((data) => {
+            console.log(`-${data.first_name}, ${data.last_name}, ${data.employee_ID}, ${data.role_ID}, ${data.manager_ID}`);
+        })
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        runSearch();
+    })
+};
+
+
+function addEmpl() {
+    inquirer
+    .prompt([
+    {
+      name: 'firstName',
+      message: 'Please enter the employees first name',
+      default: '*FirstName*',
+    },
+    {
+      name: 'lastName',
+      message: 'Please enter the employees last name',
+      default: '*LastName*',
+    },
+    {
+        name: 'employeeID',
+        message: 'Please assign employee an ID (must be numerical)',
+        default: '*EmployeeID*',
+    },
+    {
+        name: "roleID",
+        type: "list",
+        message: "Please select a the employees position by their RoleID",
+        choices: [
+          "100",
+          "101",
+          "102",
+          "200",
+          "201",
+          "202",
+          "300",
+          "301",
+          "302"
+        ]
+    },
+    {
+        name: 'managerID',
+        message: 'Please assign employee a manager',
+        default: '*ManagerID*',
+    }
+    ]).then(function(answer) {
+        // console.log(answer);
+        const query ="INSERT INTO employee (first_name,last_name,employee_ID,role_ID,manager_ID) VALUES (?,?,?,?,?)"
+        connection.query(query, [answer.firstName,answer.lastName,answer.employeeID,answer.roleID,answer.managerID], function(err, data) {
+            // console.log(data);
+        })
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        console.log(`${answer.firstName} ${answer.lastName} has been entered into the system, Welcome!`);
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        runSearch();
+    })
+};
+
     
