@@ -60,3 +60,18 @@ function runSearch() {
 };
 
 // EXECTUABLE FUNCTIONS THAT CONNECT TO MYSQL // 
+
+function viewDept() {
+    const query = "SELECT * FROM department";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        console.log("Department | Department_ID")
+        res.forEach((data) => {
+            console.log(`-${data.name}, ${data.department_ID}`);
+        })
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        runSearch();
+    })
+};
+    
