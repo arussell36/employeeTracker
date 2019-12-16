@@ -52,7 +52,7 @@ function runSearch() {
             // console.log('update empl')
             updateEmpl();
         } else {
-            // console.log('terminate')
+            console.log('Connection to server will now terminate')
             connection.end();
         };
   });
@@ -157,5 +157,44 @@ function addEmpl() {
         runSearch();
     })
 };
+
+
+function updateEmpl() {
+    inquirer
+    .prompt([
+    {
+      name: 'employeeID',
+      message: 'Please seach for employee by their EmployeeID',
+      default: '*EmployeeID*',
+    },
+    {
+        name: "roleID",
+        type: "list",
+        message: "Please select the employees new Role ID",
+        choices: [
+          "100",
+          "101",
+          "102",
+          "200",
+          "201",
+          "202",
+          "300",
+          "301",
+          "302"
+        ]
+    }
+    ]).then(function(answer) {
+    // console.log(answer);
+    const query ="UPDATE employee SET role_id = ? WHERE employee_id = ?;"
+    connection.query(query, [answer.roleID,answer.employeeID], function(err, data) {
+        // console.log(data);
+    })
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    console.log(`${answer.employeeID}'s role has been updated!`);
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    runSearch();
+    })
+};
+
 
     
